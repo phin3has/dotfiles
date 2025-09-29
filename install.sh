@@ -21,6 +21,27 @@ echo "📦 Backing up existing configs to $BACKUP_DIR..."
 echo "📝 Installing zsh config..."
 cp "$REPO_DIR/.zshrc" ~/.zshrc
 
+# Install oh-my-zsh plugins if oh-my-zsh is installed
+if [ -d "$HOME/.oh-my-zsh" ]; then
+    echo "📦 Installing oh-my-zsh plugins..."
+
+    # Install zsh-syntax-highlighting
+    if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+        echo "   • Installing zsh-syntax-highlighting..."
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" --quiet
+    else
+        echo "   • zsh-syntax-highlighting already installed"
+    fi
+
+    # Install zsh-autosuggestions
+    if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+        echo "   • Installing zsh-autosuggestions..."
+        git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" --quiet
+    else
+        echo "   • zsh-autosuggestions already installed"
+    fi
+fi
+
 # Install tmux config
 echo "📝 Installing tmux config..."
 cp "$REPO_DIR/.tmux.conf" ~/.tmux.conf
