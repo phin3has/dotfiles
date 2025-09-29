@@ -1,24 +1,18 @@
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$PATH:$HOME/bin:/usr/local/bin:/Users/brandonedmunds/go/bin:$HOME/.local/bin
+export PATH=$PATH:$HOME/bin:/usr/local/bin:$HOME/go/bin:$HOME/.local/bin
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/brandonedmunds/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -80,13 +74,18 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages colorize pip python brew macos zsh-syntax-highlighting zsh-autosuggestions python aws golang docker terraform kubectl ssh-agent)
+#
+# NOTE: zsh-syntax-highlighting and zsh-autosuggestions require installation:
+#   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+#   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+plugins=(git colored-man-pages colorize pip python brew macos zsh-syntax-highlighting zsh-autosuggestions aws golang docker terraform kubectl ssh-agent)
 
-##Configure ssh-agent plugin: 
+# Configure ssh-agent plugin
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent agent-forwarding yes
-zstyle :omz:plugins:ssh-agent identities phin3has_github_id
+# Uncomment and set your SSH key name(s):
+# zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,32 +114,20 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ssh-start='~/Tools/ssh-agent-start.sh'
-alias ssh-stop='~/Tools/ssh-agent-stop.sh'
 
-# Added by Amplify CLI binary installer
-source $HOME/Tools/antigen.zsh
-export PATH="$HOME/.amplify/bin:$HOME/Tools:$PATH"
+# Optional: Load antigen if installed
+[[ -f "$HOME/Tools/antigen.zsh" ]] && source "$HOME/Tools/antigen.zsh"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Optional: Add Amplify CLI to PATH if installed
+[[ -d "$HOME/.amplify/bin" ]] && export PATH="$HOME/.amplify/bin:$PATH"
 
+# Load NVM if installed
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-### SSH AGENT ###
-# Start SSH agent and add keys
-#if [ -z "$SSH_AUTH_SOCK" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
-#  # Start the ssh-agent
-#  eval "$(ssh-agent -s)" > /dev/null
-#fi
-
-# Add your specific keys
-#ssh-add -q ~/.ssh/desktop_id_rsa 2>/dev/null
-#ssh-add -q ~/.ssh/phin3has_github_id 2>/dev/null
-
-. "$HOME/.local/bin/env"
+# Load local environment if exists
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
