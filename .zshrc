@@ -88,7 +88,8 @@ zstyle :omz:plugins:ssh-agent agent-forwarding yes
 # Uncomment and set your SSH key name(s):
 # zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519
 
-source $ZSH/oh-my-zsh.sh
+# Load oh-my-zsh if installed
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
